@@ -16,7 +16,7 @@ from viz import visualize, visualize_real, saveObjHairFile
 
 parser = argparse.ArgumentParser(description='My HairNet =w=')
 
-parser.add_argument('--mode', type=str, default='demo')
+# parser.add_argument('--mode', type=str, default='demo')
 parser.add_argument('--data_dir', type=str, default='E:\\xujinna\\13.neural hair\\newHairNet\\HairNet\\datasets')
 parser.add_argument('--epochs', type=int, default=1)
 parser.add_argument('--batch_size', type=int, default=16)
@@ -40,10 +40,10 @@ def create_model(session):
 	"""
     model = HairModel(args.learning_rate, args.epochs, os.path.join(args.output_dir, 'summary'))
 
-    if args.mode == 'train' and not args.load_model:
-        print("Creating model with fresh parameters")
-        session.run(tf.global_variables_initializer())
-        return model
+    # if args.mode == 'train' and not args.load_model:
+    #     print("Creating model with fresh parameters")
+    #     session.run(tf.global_variables_initializer())
+    #     return model
 
     # load a previously saved model
     # ckpt_path = os.path.join(args.output_dir, 'ckpt')
@@ -211,11 +211,10 @@ def sample():
     visualize(args.data_dir, test_x[idx], test_y[idx, ..., 100:400], best_pos[0], angles[idx])
 
 
-def demo():
+def demo(test_data):
     """use real image to inference"""
 
     print("loading data")
-    test_data = load_real_image(os.path.join(args.data_dir, 'real'))
     # test_data = test_data[0]
     cheat_y = np.zeros((1, 32, 32, 500))
 
@@ -269,5 +268,8 @@ def gen(inFile, outFile):
 #         gen(args.input, args.output)
 
 if __name__ == '__main__':
-    demo()
+    test_dir = r"E:\xujinna\13.neural hair\newHairNet\HairNet\datasets\real\strands00422.png"
+    isfolder = False
+    test_data = load_real_image(test_dir, isfolder)
+    demo(test_data)
 # main()

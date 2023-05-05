@@ -185,17 +185,22 @@ def load_root(data_dir):
     return grid_root, mask
 
 
-def load_real_image(data_dir):
+def load_real_image(data_dir, isFolder):
     """ load test data
     Return:
         image_arr: (n, 256, 256, 2) numpy array
     """
     images = []
-    files = os.listdir(data_dir)
-    for file in files:
-        img = cv2.imread(os.path.join(data_dir, file), cv2.IMREAD_COLOR)
+    if isFolder == 0:
+        img = cv2.imread(data_dir, cv2.IMREAD_COLOR)
         img = img.astype(np.float64) / 255
         images.append(img[:, :, (2, 0)])  # (R, B)
+    else:
+        files = os.listdir(data_dir)
+        for file in files:
+            img = cv2.imread(os.path.join(data_dir, file), cv2.IMREAD_COLOR)
+            img = img.astype(np.float64) / 255
+            images.append(img[:, :, (2, 0)])  # (R, B)
 
     # put all images into big array
     n = len(images)
